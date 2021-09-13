@@ -12,7 +12,8 @@ class LinkedList
     public:
       Node(T data, Node *pNext = nullptr) : m_data(data), m_pNext(pNext)
       {};
-      T         getData()                {   return m_data;     }
+      T         getData()                {   return m_data;    }
+      T        &getDataRef()             {   return m_data;    }
       void      setpNext(Node *pNext)    {   m_pNext = pNext;  }
       Node     *getpNext()               {   return m_pNext;   }
   };
@@ -29,6 +30,7 @@ class LinkedList
     bool    empty() const       { return size() == 0;  }
 
     ostream & print(ostream &os);
+    T &operator[](size_t pos); //
 };
 
 template <typename T>
@@ -68,6 +70,16 @@ T LinkedList<T>::PopHead()
 }
 
 template <typename T>
+T &LinkedList<T>::operator[](size_t pos)
+{
+  assert(pos <= size());
+  Node *pTmp = m_pHead;
+  for(auto i= 0 ; i < pos ; i++)
+    pTmp = pTmp->getpNext();
+  return pTmp->getDataRef();
+}
+
+template <typename T>
 ostream &LinkedList<T>::print(ostream &os)
 {
   Node *pNode = m_pHead;
@@ -88,7 +100,7 @@ class iterator
     iterator(LinkedList<T>::Node *pNode) : m_pNode(pNode) {}
     bool operator==(iterator &iter)       { return m_pNode == iter.m_pNode; }
     bool operator!=(iterator &iter)       { return m_pNode != iter.m_pNode; }
-    T operator*()                         { return m_pNode->getData();      }
+    T &operator*()                         { return *m_pNode->getData();      }
     void operator++();
 };
 

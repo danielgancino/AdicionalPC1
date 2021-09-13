@@ -46,6 +46,7 @@ int main()
   {   mylist.insert_at_head(vect[x]);
       cout << mylist << endl;
   }
+  myList[10000] = 14;
 
   iterator<TX> iter = mylist.begin();
   for(; iter != mylist.end() ; iter++)
